@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>BMI Calculator</title>
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background: linear-gradient(135deg,#43e97b,#38f9d7);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.box{
+  background:white;
+  padding:30px;
+  border-radius:15px;
+  width:350px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+input{
+  width:90%;
+  padding:10px;
+  margin:10px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+button{
+  width:100%;
+  padding:10px;
+  background:#43e97b;
+  border:none;
+  color:white;
+  border-radius:8px;
+  cursor:pointer;
+}
+button:hover{background:#2ecc71;}
+.result{
+  margin-top:15px;
+  padding:10px;
+  background:#f1f1f1;
+  border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h2>BMI Calculator</h2>
+
+<input id="height" placeholder="Height (meters)">
+<input id="weight" placeholder="Weight (kg)">
+
+<button onclick="calculate()">Calculate</button>
+
+<div class="result" id="result"></div>
+</div>
+
+<script>
+async function calculate(){
+
+  if(!height.value || !weight.value){
+    alert("Enter values properly");
+    return;
+  }
+
+  const res = await fetch("http://localhost:5000/bmi",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "authorization":localStorage.getItem("token")
+    },
+    body:JSON.stringify({
+      height:height.value,
+      weight:weight.value
+    })
+  });
+
+  const data = await res.json();
+
+  result.innerHTML = `
+    <h3>BMI: ${data.bmi.toFixed(2)}</h3>
+    <p><b>${data.category}</b></p>
+    <p>${data.advice}</p>
+    <p><b>Eat:</b> ${data.eat.join(", ")}</p>
+    <p><b>Avoid:</b> ${data.avoid.join(", ")}</p>
+  `;
+}
+</script>
+
+</body>
+</html>

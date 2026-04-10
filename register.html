@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Register</title>
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background: linear-gradient(135deg,#4facfe,#00f2fe);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.box{
+  background:white;
+  padding:30px;
+  border-radius:15px;
+  width:300px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+h2{margin-bottom:20px;}
+input{
+  width:90%;
+  padding:10px;
+  margin:10px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+button{
+  width:100%;
+  padding:10px;
+  background:#4facfe;
+  border:none;
+  color:white;
+  border-radius:8px;
+  cursor:pointer;
+}
+button:hover{background:#00c6ff;}
+a{display:block;margin-top:10px;}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h2>Register</h2>
+
+<input id="username" placeholder="Username">
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="register()">Register</button>
+
+<a href="login.html">Already have account? Login</a>
+</div>
+
+<script>
+async function register(){
+  const res = await fetch("http://localhost:5000/register",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      username:username.value,
+      email:email.value,
+      password:password.value
+    })
+  });
+  alert("Registered Successfully");
+  window.location.href="login.html";
+}
+</script>
+
+</body>
+</html>

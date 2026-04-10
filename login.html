@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background: linear-gradient(135deg,#667eea,#764ba2);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.box{
+  background:white;
+  padding:30px;
+  border-radius:15px;
+  width:300px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+input{
+  width:90%;
+  padding:10px;
+  margin:10px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+button{
+  width:100%;
+  padding:10px;
+  background:#667eea;
+  border:none;
+  color:white;
+  border-radius:8px;
+  cursor:pointer;
+}
+button:hover{background:#5a67d8;}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h2>Login</h2>
+
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+</div>
+
+<script>
+async function login(){
+  const res = await fetch("http://localhost:5000/login",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      email:email.value,
+      password:password.value
+    })
+  });
+
+  const data = await res.json();
+
+  localStorage.setItem("token",data.token);
+  window.location.href="bmi.html";
+}
+</script>
+
+</body>
+</html>
